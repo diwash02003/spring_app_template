@@ -1,5 +1,6 @@
 package com.template.auth.dto;
 
+import com.template.constants.FieldErrorConstant;
 import jakarta.validation.constraints.NotBlank;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
@@ -17,9 +18,9 @@ import lombok.Setter;
 @NoArgsConstructor
 public class AuthenticationRequest {
 
-    @NotBlank(message = "Username or email is required")
+    @NotBlank(message = FieldErrorConstant.NOT_BLANK)
     private String usernameOrEmail;
 
-    @NotBlank(message = "Password is required")
+    @NotBlank(message = FieldErrorConstant.NOT_BLANK)
     private String password;
 }

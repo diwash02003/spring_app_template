@@ -10,7 +10,10 @@ import lombok.*;
  */
 
 @Entity
-@Table(name = "roles")
+@Table(name = "roles",
+        uniqueConstraints = {
+                @UniqueConstraint(name = "uq_roles_name", columnNames = "name")
+        })
 @Getter
 @Setter
 @NoArgsConstructor
@@ -19,10 +22,11 @@ import lombok.*;
 public class Role extends BaseEntity {
 
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @GeneratedValue(strategy = GenerationType.AUTO, generator = "roles_seq_gen")
+    @SequenceGenerator(name = "roles_seq_gen", sequenceName = "roles_seq", allocationSize = 1)
     private Long id;
 
-    @Column(unique = true, nullable = false)
+    @Column(nullable = false, length = 30)
     private String name;
 
     private String description;

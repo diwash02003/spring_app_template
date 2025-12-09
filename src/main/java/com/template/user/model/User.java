@@ -21,8 +21,8 @@ import java.util.stream.Collectors;
 @Entity
 @Table(name = "users",
         uniqueConstraints = {
-                @UniqueConstraint(columnNames = "username"),
-                @UniqueConstraint(columnNames = "email")
+                @UniqueConstraint(name = "uq_users_username", columnNames = "username"),
+                @UniqueConstraint(name = "uq_users_email", columnNames = "email")
         })
 @Getter
 @Setter
@@ -32,7 +32,8 @@ import java.util.stream.Collectors;
 public class User extends BaseEntity implements UserDetails {
 
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @GeneratedValue(strategy = GenerationType.AUTO, generator = "users_seq_gen")
+    @SequenceGenerator(name = "users_seq_gen", sequenceName = "users_seq", allocationSize = 1)
     private Long id;
 
     @Column(nullable = false)

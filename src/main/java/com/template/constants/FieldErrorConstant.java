@@ -15,4 +15,5 @@ public class FieldErrorConstant {
     public static final String NOT_BLANK = "notblank";
     public static final String PATTERN = "pattern";
     public static final String SIZE = "size";
+    public static final String VALID = "valid";
 }

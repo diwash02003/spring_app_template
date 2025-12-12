@@ -1,9 +1,6 @@
 package com.template.auth.dto;
 
-import lombok.AllArgsConstructor;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
-import lombok.Setter;
+import lombok.*;
 
 /**
  * @author diwash
@@ -14,6 +11,10 @@ import lombok.Setter;
 @Setter
 @AllArgsConstructor
 @NoArgsConstructor
+@Builder
 public class AuthenticationResponse {
-    private String token;
+    private String accessToken;
+    private String refreshToken;
+    private String username;
+    private String email;
 }

@@ -1,10 +1,12 @@
 package com.template.auth.controller;
 
-import com.template.response.MessageParameter;
-import com.template.constants.MessageConstants;
 import com.template.auth.dto.AuthenticationRequest;
 import com.template.auth.dto.AuthenticationResponse;
+import com.template.auth.dto.ChangePasswordRequest;
 import com.template.auth.service.AuthService;
+import com.template.constants.MessageConstants;
+import com.template.response.MessageParameter;
+import jakarta.servlet.http.HttpServletResponse;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -26,7 +28,13 @@ public class AuthController {
 
     @PostMapping("/login")
     @MessageParameter(message = MessageConstants.SUCCESS, source = MessageConstants.LOGIN)
-    public AuthenticationResponse login(@RequestBody @Valid AuthenticationRequest request) {
-        return authService.authenticate(request);
+    public AuthenticationResponse login(@RequestBody @Valid AuthenticationRequest request, HttpServletResponse response) {
+        return authService.authenticate(request, response);
+    }
+
+    @PostMapping("/change-password")
+    @MessageParameter(message = MessageConstants.SUCCESS_UPDATE, source = MessageConstants.PASSWORD)
+    public void changePassword(@RequestBody @Valid ChangePasswordRequest changePasswordRequest) {
+        authService.changePassword(changePasswordRequest);
     }
 }

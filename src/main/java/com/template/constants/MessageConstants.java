@@ -23,6 +23,11 @@ public class MessageConstants {
     public static final String FORBIDDEN = "forbidden";
     public static final String VALIDATION_ERROR = "validation.error";
     public static final String LOGIN = "login";
-    public static final String SUCCESS = "success";
+    public static final String LOGOUT = "logout";
 
+    public static final String SUCCESS = "success";
+    public static final String USER = "user";
+    public static final String PASSWORD = "password";
+    public static final String INVALID_CURRENT_PASSWORD = "password.change.invalid.current";
+    public static final String PASSWORDS_DO_NOT_MATCH = "password.change.mismatch";
 }

@@ -1,5 +1,6 @@
 package com.template.configuration.jwt;
 
+import com.template.constants.TokenConstants;
 import io.jsonwebtoken.*;
 import io.jsonwebtoken.io.Decoders;
 import io.jsonwebtoken.security.Keys;
@@ -37,16 +38,16 @@ public class JwtService {
     public String generateToken(UserDetails userDetails, Long userId, String email) {
         Map<String, Object> claims = new HashMap<>();
 
-        claims.put("authorities", userDetails.getAuthorities().stream()
+        claims.put(TokenConstants.CLAIM_AUTHORITIES, userDetails.getAuthorities().stream()
                 .map(GrantedAuthority::getAuthority)
                 .collect(Collectors.toList()));
 
-        claims.put("userId", userId);
-        claims.put("email", email);
+        claims.put(TokenConstants.CLAIM_USER_ID, userId);
+        claims.put(TokenConstants.CLAIM_EMAIL, email);
+        claims.put(TokenConstants.CLAIM_TOKEN_TYPE, TokenConstants.TOKEN_TYPE_ACCESS);
 
         return buildToken(claims, userDetails.getUsername(), jwtExpirationMs);
     }
-
 
     private String buildToken(Map<String, Object> claims, String subject, long expiration) {
         return Jwts.builder()
@@ -65,7 +66,7 @@ public class JwtService {
     }
 
     public List<String> extractAuthorities(String token) {
-        return extractAllClaims(token).get("authorities", List.class);
+        return extractAllClaims(token).get(TokenConstants.CLAIM_AUTHORITIES, List.class);
     }
 
     public Date extractExpiration(String token) {
@@ -74,7 +75,7 @@ public class JwtService {
 
     public Long extractUserId(String token) {
         try {
-            Object userId = extractAllClaims(token).get("userId");
+            Object userId = extractAllClaims(token).get(TokenConstants.CLAIM_USER_ID);
 
             if (userId instanceof Integer) {
                 return ((Integer) userId).longValue();

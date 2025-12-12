@@ -1,6 +1,7 @@
 package com.template.configuration.jwt.filter;
 
 import com.template.configuration.jwt.JwtService;
+import com.template.util.JwtUtil;
 import jakarta.servlet.FilterChain;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.http.HttpServletRequest;
@@ -33,6 +34,7 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter {
 
     private final JwtService jwtService;
     private final UserDetailsService userDetailsService;
+    private final JwtUtil jwtUtil;
 
 
     @Override
@@ -41,7 +43,7 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter {
                                     @NonNull FilterChain filterChain) throws ServletException, IOException {
         try {
             // Extract JWT token from request
-            String jwt = extractJwtFromRequest(request);
+            String jwt = jwtUtil.extractJwtFromRequest(request);
 
             if (StringUtils.hasText(jwt)) {
                 // Validate token and extract username
@@ -73,26 +75,6 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter {
         }
 
         filterChain.doFilter(request, response);
-    }
-
-    // Extract JWT from Authorization header
-    private String extractJwtFromRequest(HttpServletRequest request) {
-        String bearerToken = request.getHeader("Authorization");
-
-        if (StringUtils.hasText(bearerToken) && bearerToken.startsWith("Bearer ")) {
-            return bearerToken.substring(7);
-        }
-
-        // Also check for token in cookie
-        jakarta.servlet.http.Cookie[] cookies = request.getCookies();
-        if (cookies != null) {
-            for (jakarta.servlet.http.Cookie cookie : cookies) {
-                if ("access_token".equals(cookie.getName())) {
-                    return cookie.getValue();
-                }
-            }
-        }
-        return null;
     }
 
     @Override

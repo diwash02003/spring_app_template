@@ -1,10 +1,7 @@
 package com.template.exception.handler;
 
 import com.template.enums.ResponseStatus;
-import com.template.exception.custom.CustomNotFoundException;
-import com.template.exception.custom.InvalidCurrentPasswordException;
-import com.template.exception.custom.PasswordMismatchException;
-import com.template.exception.custom.ResourceNotFoundException;
+import com.template.exception.custom.*;
 import com.template.exception.dto.ApiErrorResponse;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -48,6 +45,16 @@ public class GlobalExceptionHandler {
                 "Password Mismatch",
                 ex.getMessage());
         return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(errorResponse);
+    }
+
+    @ExceptionHandler(EnumNotFoundException.class)
+    public ResponseEntity<ApiErrorResponse> handleEnumsNotFound(EnumNotFoundException ex) {
+        ApiErrorResponse errorResponse = new ApiErrorResponse(
+                ResponseStatus.FAIL,
+                HttpStatus.NOT_FOUND.value(),
+                "Enum Notfound",
+                ex.getMessage());
+        return ResponseEntity.status(HttpStatus.NOT_FOUND).body(errorResponse);
     }
 
     // 404 for REST endpoints (fallback controller will throw this)

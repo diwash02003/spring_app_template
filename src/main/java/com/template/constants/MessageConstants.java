@@ -30,4 +30,9 @@ public class MessageConstants {
     public static final String PASSWORD = "password";
     public static final String INVALID_CURRENT_PASSWORD = "password.change.invalid.current";
     public static final String PASSWORDS_DO_NOT_MATCH = "password.change.mismatch";
+    public static final String COUNTRY = "country";
+    public static final String PROVINCE = "province";
+    public static final String DISTRICT = "district";
+    public static final String LOCAL_BODY = "local.body";
+    public static final String ENUM = "enum";
 }

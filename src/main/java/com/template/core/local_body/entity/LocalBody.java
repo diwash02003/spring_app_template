@@ -30,10 +30,10 @@ public class LocalBody {
     @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "local_body_seq_gen")
     private Long id;
 
-    @Column(name = "name", columnDefinition = "varchar(50)")
+    @Column(name = "name", nullable = false, length = 25)
     private String name;
 
-    @Column(name = "code", nullable = false, length = 50)
+    @Column(name = "code", nullable = false, length = 5)
     private String code;
 
     @Column(name = "total_wards")

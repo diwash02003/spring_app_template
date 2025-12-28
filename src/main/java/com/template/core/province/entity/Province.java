@@ -11,7 +11,12 @@ import lombok.Setter;
  * @created 12/25/25
  */
 
-@Table(name = "province")
+@Table(
+        name = "province",
+        uniqueConstraints = {
+                @UniqueConstraint(name = "uk_province_code", columnNames = {"code"})
+        }
+)
 @Entity
 @Getter
 @Setter
@@ -21,12 +26,12 @@ public class Province {
 
     @Id
     @SequenceGenerator(name = "province_seq_gen", sequenceName = "province_seq", allocationSize = 1)
-    @GeneratedValue(strategy = GenerationType.AUTO, generator = "province_seq_gen")
+    @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "province_seq_gen")
     private Long id;
 
-    @Column(name = "name", nullable = false, columnDefinition = "varchar(100)")
+    @Column(name = "name", nullable = false, length = 25)
     private String name;
 
-    @Column(name = "code", unique = true)
+    @Column(name = "code", unique = true, length = 5)
     private String code;
 }

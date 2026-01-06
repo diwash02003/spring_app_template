@@ -22,11 +22,11 @@ import lombok.*;
 public class Role extends BaseEntity {
 
     @Id
-    @GeneratedValue(strategy = GenerationType.AUTO, generator = "roles_seq_gen")
+    @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "roles_seq_gen")
     @SequenceGenerator(name = "roles_seq_gen", sequenceName = "roles_seq", allocationSize = 1)
     private Long id;
 
-    @Column(nullable = false, length = 30)
+    @Column(nullable = false, length = 100)
     private String name;
 
     private String description;

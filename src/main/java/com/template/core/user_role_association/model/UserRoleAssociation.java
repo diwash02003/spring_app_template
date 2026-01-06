@@ -6,6 +6,8 @@ import com.template.core.user.model.User;
 import jakarta.persistence.*;
 import lombok.*;
 
+import java.time.LocalDate;
+
 /**
  * @author diwash
  * @created 12/30/25
@@ -31,4 +33,10 @@ public class UserRoleAssociation extends BaseEntity {
     @ManyToOne(cascade = {CascadeType.DETACH})
     @JoinColumn(name = "role_id", foreignKey = @ForeignKey(name = "fk_fk_user_role_association_role_id"))
     private Role role;
+
+    @Column(name = "effective_from")
+    private LocalDate effectiveFrom;
+
+    @Column(name = "effective_to")
+    private LocalDate effectiveTo;
 }

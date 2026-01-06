@@ -1,18 +1,17 @@
 package com.template.core.auth.service.impl;
 
+import com.template.configuration.jwt.service.JwtService;
+import com.template.configuration.security.user.CustomUserDetails;
+import com.template.constants.MessageConstants;
 import com.template.core.auth.dto.AuthenticationRequest;
 import com.template.core.auth.dto.AuthenticationResponse;
 import com.template.core.auth.dto.ChangePasswordRequest;
 import com.template.core.auth.service.AuthService;
-import com.template.configuration.jwt.service.JwtService;
-import com.template.configuration.security.user.CustomUserDetails;
-import com.template.constants.MessageConstants;
-import com.template.exception.custom.CustomNotFoundException;
+import com.template.core.user.model.User;
+import com.template.core.user.repo.UserRepository;
 import com.template.exception.custom.InvalidCurrentPasswordException;
 import com.template.exception.custom.PasswordMismatchException;
 import com.template.response.CustomMessageSource;
-import com.template.core.user.model.User;
-import com.template.core.user.repo.UserRepository;
 import com.template.util.CurrentUserUtil;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.authentication.AuthenticationManager;
@@ -41,13 +40,14 @@ public class AuthServiceImpl implements AuthService {
         Authentication authentication = authenticationManager.authenticate(new UsernamePasswordAuthenticationToken(request.getUsername(), request.getPassword()));
         CustomUserDetails user = (CustomUserDetails) authentication.getPrincipal();
 
+        assert user != null;
         String accessToken = jwtTokenProvider.generateToken(user);
         return new AuthenticationResponse(accessToken, accessToken, user.getUsername(), user.getEmail());
     }
 
     @Override
     public void changePassword(ChangePasswordRequest request) {
-        User user = currentUserUtil.getCurrentUser();
+        User user = currentUserUtil.getCurrentUserEntity();
         if (!passwordEncoder.matches(request.getCurrentPassword(), user.getPassword())) {
             throw new InvalidCurrentPasswordException(
                     customMessageSource.get(MessageConstants.INVALID_CURRENT_PASSWORD,
@@ -64,11 +64,5 @@ public class AuthServiceImpl implements AuthService {
 
         user.setPassword(passwordEncoder.encode(request.getNewPassword()));
         userRepository.save(user);
-    }
-
-    private User findUserByUserNameOrEmail(String username, String email) {
-        return userRepository.findByUsernameOrEmail(username, email).orElseThrow(() ->
-                new CustomNotFoundException(customMessageSource.get(MessageConstants.NOT_FOUND,
-                        customMessageSource.get(MessageConstants.USER))));
     }
 }

@@ -35,4 +35,6 @@ public class MessageConstants {
     public static final String DISTRICT = "district";
     public static final String LOCAL_BODY = "local.body";
     public static final String ENUM = "enum";
+    public static final String ROLE = "role";
+    public static final String ASSOCIATION = "association";
 }

@@ -12,7 +12,6 @@ import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Component;
 
-
 /**
  * @author diwash
  * @created 12/9/25
@@ -50,7 +49,7 @@ public class CurrentUserUtil {
         return jwtService.extractAllClaims(token).get(TokenConstants.CLAIM_EMAIL, String.class);
     }
 
-    public User getCurrentUser() {
+    public User getCurrentUserEntity() {
         return userRepository.findById(getCurrentUserId()).orElseThrow(() ->
                 new CustomNotFoundException(customMessageSource.get(MessageConstants.NOT_FOUND,
                         customMessageSource.get(MessageConstants.USER))));

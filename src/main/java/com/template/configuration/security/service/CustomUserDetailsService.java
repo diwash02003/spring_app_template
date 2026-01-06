@@ -5,7 +5,7 @@ import com.template.core.user.model.User;
 import com.template.core.user.repo.UserRepository;
 import com.template.core.user_role_association.repo.UserRoleAssociationRepository;
 import lombok.RequiredArgsConstructor;
-import org.jspecify.annotations.NonNull;
+import org.jspecify.annotations.NullMarked;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
@@ -21,6 +21,7 @@ import java.util.stream.Collectors;
  * @created 12/30/25
  */
 
+@NullMarked
 @Service
 @RequiredArgsConstructor
 public class CustomUserDetailsService implements UserDetailsService {
@@ -28,7 +29,7 @@ public class CustomUserDetailsService implements UserDetailsService {
     private final UserRoleAssociationRepository userRoleAssociationRepository;
 
     @Override
-    public UserDetails loadUserByUsername(@NonNull String username) throws UsernameNotFoundException {
+    public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
         User user = userRepository.findByUsernameOrEmail(username, username)
                 .orElseThrow(() -> new UsernameNotFoundException("User not found"));
 

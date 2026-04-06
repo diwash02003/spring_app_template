@@ -10,6 +10,7 @@ import com.template.core.user_role_association.model.UserRoleAssociation;
 import com.template.core.user_role_association.repo.UserRoleAssociationRepository;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.jspecify.annotations.NonNull;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.security.crypto.password.PasswordEncoder;
@@ -31,7 +32,7 @@ public class DataLoader implements CommandLineRunner {
     private final PasswordEncoder passwordEncoder;
 
     @Override
-    public void run(String... args) {
+    public void run(String @NonNull ... args) {
         // create roles
         Role adminRole = roleRepository.findByName(RoleConstant.ADMIN)
                 .orElseGet(() -> roleRepository.save(Role.builder()
